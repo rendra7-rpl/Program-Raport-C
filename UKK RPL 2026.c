@@ -10,12 +10,13 @@ typedef struct {
     int nilai;
 } Mapel;
 
+// Prototipe Fungsi
 void tampilkanDaftarMapel(Mapel daftarMapel[]);
 void inputNilaiSiswa(Mapel daftarMapel[]);
 float hitungRataRata(Mapel daftarMapel[]);
 char tentukanPredikat(float rataRata, int kkmMinimal);
 void tampilkanRaport(Mapel daftarMapel[], char nama[], char kelas[], char nisn[], char sekolah[], float rataRata, char predikat);
-void eksporKeFile(Mapel daftarMapel[], char nama[], char kelas[], char nisn[], char sekolah[], float rataRata, char predikat);
+void simpanFile(Mapel daftarMapel[], char nama[], char kelas[], char nisn[], char sekolah[], float rataRata, char predikat);
 
 int main() {
     Mapel daftarMapel[MAX_MAPEL] = {
@@ -31,14 +32,10 @@ int main() {
     tampilkanDaftarMapel(daftarMapel);
 
     printf("\n========= INPUT IDENTITAS SISWA =========\n");
-    printf("Nama         : "); 
-    scanf(" %[^\n]", nama);
-    printf("Kelas        : "); 
-    scanf(" %[^\n]", kelas);
-    printf("NISN         : "); 
-    scanf(" %[^\n]", nisn);
-    printf("Nama Sekolah : "); 
-    scanf(" %[^\n]", sekolah);
+    printf("Nama         : "); scanf(" %[^\n]", nama);
+    printf("Kelas        : "); scanf(" %[^\n]", kelas);
+    printf("NISN         : "); scanf(" %[^\n]", nisn);
+    printf("Nama Sekolah : "); scanf(" %[^\n]", sekolah);
 
     do {
         inputNilaiSiswa(daftarMapel);
@@ -55,7 +52,8 @@ int main() {
         scanf(" %c", &pilihanUlang);
 
         if (pilihanUlang == 'T' || pilihanUlang == 't') {
-            eksporKeFile(daftarMapel, nama, kelas, nisn, sekolah, rataRata, predikat);
+            // Memanggil simpanFile (sudah disinkronkan)
+            simpanFile(daftarMapel, nama, kelas, nisn, sekolah, rataRata, predikat);
         }
 
     } while (pilihanUlang == 'Y' || pilihanUlang == 'y');
@@ -63,6 +61,8 @@ int main() {
     printf("\nProgram selesai. Terima Kasih!\n");
     return 0;
 }
+
+// --- IMPLEMENTASI FUNGSI ---
 
 void tampilkanDaftarMapel(Mapel daftarMapel[]) {
     printf("========= DAFTAR MATA PELAJARAN =========\n");
@@ -85,10 +85,10 @@ void inputNilaiSiswa(Mapel daftarMapel[]) {
             isInputValid = scanf("%d", &daftarMapel[i].nilai);
 
             if (isInputValid != 1) {
-                printf("Error: Input harus berupa angka.\n");
+                printf("Input harus berupa ANGKA!\n");
                 while (getchar() != '\n');
             } else if (daftarMapel[i].nilai < 0 || daftarMapel[i].nilai > 100) {
-                printf("Error: Rentang nilai 0 - 100.\n");
+                printf("Nilai harus antara 0 - 100!\n");
                 isInputValid = 0;
             }
         } while (!isInputValid);
@@ -127,15 +127,14 @@ void tampilkanRaport(Mapel daftarMapel[], char nama[], char kelas[], char nisn[]
 }
 
 void simpanFile(Mapel mapel[], char nama[], char kelas[], char nisn[], char sekolah[], float rata, char predikat) {
-    char namaFile[100]; 
-    
+    char namaFile[100];
     sprintf(namaFile, "Raport_%s.txt", nisn);
 
     FILE *fp = fopen(namaFile, "w");
 
     if(fp == NULL) {
         printf("Gagal membuat file!\n");
-        return; 
+        return;
     }
 
     fprintf(fp, "======================= RAPORT SISWA =======================\n");
