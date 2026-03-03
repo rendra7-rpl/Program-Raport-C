@@ -45,10 +45,10 @@ float hitungRata(Mapel mapel[]);
 char tentukanPredikat(float rata);
 
 // Deklarasi fungsi void untuk menampilkan hasil rapot lengkap ke layar terminal
-void tampilRapot(Mapel mapel[], char nama[], char kelas[], char nis[], char sekolah[], float rata, char predikat);
+void tampilRapot(Mapel mapel[], char nama[], char kelas[], char nisn[], char sekolah[], float rata, char predikat);
 
 // Deklarasi fungsi void untuk menyimpan data rapot ke dalam file eksternal (.txt)
-void simpanFile(Mapel mapel[], char nama[], char kelas[], char nis[], char sekolah[], float rata, char predikat);
+void simpanFile(Mapel mapel[], char nama[], char kelas[], char nisn[], char sekolah[], float rata, char predikat);
 
 // ====================== FUNGSI UTAMA ======================
 // Entry point utama program di mana eksekusi kode dimulai
@@ -59,15 +59,15 @@ int main() {
     // Deklarasi dan inisialisasi array of struct Mapel dengan 5 elemen awal
     // Menggunakan aggregate initialization untuk mengisi nama dan KKM standar
     Mapel mapel[MAX_MAPEL] = {
-        {"Agama", 78, 0},            // Index 0: Mapel Agama, KKM 78, nilai awal 0
-        {"Bahasa Indonesia", 78, 0}, // Index 1: Mapel B.Indo, KKM 78
-        {"Bahasa Inggris", 78, 0},   // Index 2: Mapel B.Inggris, KKM 78
-        {"Pancasila", 78, 0},        // Index 3: Mapel Pancasila, KKM 78
-        {"Matematika", 78, 0}        // Index 4: Mapel Matematika, KKM 78
+        {"Pemrograman Web", 76, 0},        // Index 0: Mapel Pemrograman Web, KKM 76, nilai awal 0
+        {"Pemrograman Mobile", 76, 0},     // Index 1: Mapel Pemrograman Mobile, KKM 76
+        {"Basis Data", 76, 0},             // Index 2: Mapel Basis Data , KKM 76
+        {"PBO", 76, 0},                    // Index 3: Mapel PBO, KKM 76
+        {"Kewirausahaan", 79, 0}           // Index 4: Mapel Kewirausahaan, KKM 79
     };
 
     // Deklarasi array karakter (string) untuk menyimpan identitas siswa
-    char nama[50], kelas[20], nis[20], sekolah[50];
+    char nama[50], kelas[20], nisn[20], sekolah[50];
 
     // Deklarasi variabel karakter untuk menampung pilihan perulangan (Y/T)
     char ulang;
@@ -90,9 +90,9 @@ int main() {
     printf("Kelas        : ");
     scanf(" %[^\n]", kelas);
 
-    // Membaca input NIS (Nomor Induk Siswa)
-    printf("NIS          : ");
-    scanf(" %[^\n]", nis);
+    // Membaca input NISN (Nomor Induk Siswa Nasional)
+    printf("NISN         : ");
+    scanf(" %[^\n]", nisn);
 
     // Membaca input Nama Sekolah
     printf("Nama Sekolah : ");
@@ -113,23 +113,26 @@ int main() {
         char predikat = tentukanPredikat(rata);
 
         // Memanggil fungsi tampilRapot untuk menyajikan data identitas dan nilai secara rapi
-        tampilRapot(mapel, nama, kelas, nis, sekolah, rata, predikat);
+        tampilRapot(mapel, nama, kelas, nisn, sekolah, rata, predikat);
 
         // Meminta input dari user apakah ingin melakukan input nilai ulang
-        printf("\nIngin input ulang nilai? (Y/T): ");
+        printf("\nApakah data sudah benar?\n");
+        printf("Tekan T untuk cetak rapor (Selesai)\n");
+        printf("Tekan Y untuk input ulang nilai\n");
+        printf("Pilihan Anda: ");
         scanf(" %c", &ulang); // Spasi sebelum %c digunakan untuk mengabaikan karakter newline (\n)
 
-        // Struktur kontrol if untuk mengecek jika user memilih 'T' atau 't' (Tidak)
+        // Struktur kontrol if untuk mengecek jika user memilih 'T' atau 't' (Tidak mengulang)
         if(ulang == 'T' || ulang == 't') {
             // Memanggil fungsi simpanFile untuk menyimpan hasil akhir ke file teks
-            simpanFile(mapel, nama, kelas, nis, sekolah, rata, predikat);
+            simpanFile(mapel, nama, kelas, nisn, sekolah, rata, predikat);
         }
 
     // Kondisi perulangan: kembali ke 'do' jika variabel ulang bernilai 'Y' atau 'y'
     } while(ulang == 'Y' || ulang == 'y');
 
     // Mencetak pesan akhir saat program selesai
-    printf("\nProgram selesai.\n");
+    printf("\nProgram selesai. Terima Kasih!\n");
 
     // Mengembalikan nilai 0 ke sistem operasi sebagai tanda program berakhir normal
     return 0;
@@ -200,18 +203,18 @@ float hitungRata(Mapel mapel[]) {
 // Fungsi untuk menentukan huruf predikat berdasarkan angka rata-rata
 char tentukanPredikat(float rata) {
     // Struktur percabangan if-else-if untuk pengkategorian predikat
-    if(rata >= 90) return 'A';      // Jika 90 ke atas mendapat A
-    else if(rata >= 80) return 'B'; // Jika 80 - 89 mendapat B
-    else if(rata >= 70) return 'C'; // Jika 70 - 79 mendapat C
-    else return 'D';                // Di bawah 70 mendapat D
+    if (rata >= 86) return 'A';      // Jika 86 ke atas mendapat A
+    else if (rata >= 80) return 'B'; // Jika 80 - 85 mendapat B
+    else if (rata >= 76) return 'C'; // Jika 76 - 79 mendapat C
+    else return 'D';                // Di bawah 76 mendapat D
 }
 
 // Fungsi untuk menampilkan rapot siswa ke layar (Output Terminal)
-void tampilRapot(Mapel mapel[], char nama[], char kelas[], char nis[], char sekolah[], float rata, char predikat) {
+void tampilRapot(Mapel mapel[], char nama[], char kelas[], char nisn[], char sekolah[], float rata, char predikat) {
     printf("\n================== RAPORT SISWA ==================\n");
     printf("Nama    : %s\n", nama);
     printf("Kelas   : %s\n", kelas);
-    printf("NIS     : %s\n", nis);
+    printf("NISN    : %s\n", nisn);
     printf("Sekolah : %s\n\n", sekolah);
 
     printf("==============================================================\n");
@@ -238,12 +241,12 @@ void tampilRapot(Mapel mapel[], char nama[], char kelas[], char nis[], char seko
 }
 
 // Fungsi untuk mengekspor data rapot ke dalam file teks secara permanen
-void simpanFile(Mapel mapel[], char nama[], char kelas[], char nis[], char sekolah[], float rata, char predikat) {
+void simpanFile(Mapel mapel[], char nama[], char kelas[], char nisn[], char sekolah[], float rata, char predikat) {
     char namaFile[100]; // Array karakter untuk menampung nama file yang akan dibuat
 
     // sprintf: memformat string dan menyimpannya ke variabel namaFile
-    // Nama file akan dinamis mengikuti NIS siswa, contoh: Raport_12345.txt
-    sprintf(namaFile, "Raport_%s.txt", nis);
+    // Nama file akan dinamis mengikuti NISN siswa, contoh: Raport_12345.txt
+    sprintf(namaFile, "Raport_%s.txt", nisn);
 
     // fopen: membuka file dengan mode "w" (write/tulis)
     // Jika file belum ada, sistem akan membuatnya. Jika sudah ada, isinya akan ditimpa.
@@ -259,7 +262,7 @@ void simpanFile(Mapel mapel[], char nama[], char kelas[], char nis[], char sekol
     fprintf(fp, "======================= RAPORT SISWA =======================\n");
     fprintf(fp, "Nama    : %-30s\n", nama);
     fprintf(fp, "Kelas   : %-20s\n", kelas);
-    fprintf(fp, "NIS     : %-20s\n", nis);
+    fprintf(fp, "NISN    : %-20s\n", nisn);
     fprintf(fp, "Sekolah : %-30s\n", sekolah);
     fprintf(fp, "============================================================\n\n");
 
