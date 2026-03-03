@@ -76,10 +76,14 @@ void tampilkanDaftarKKM() {
 void inputIdentitasSiswa() {
     printf("\n=== INPUT IDENTITAS SISWA ===\n");
     // Menggunakan format specifier %[^\n] agar scanf dapat membaca string yang mengandung spasi
-    printf("Nama Siswa     : "); scanf(" %[^\n]", siswa.nama);
-    printf("NISN           : "); scanf(" %[^\n]", siswa.nisn);
-    printf("Kelas          : "); scanf(" %[^\n]", siswa.kelas);
-    printf("Nama Sekolah   : "); scanf(" %[^\n]", siswa.sekolah);
+    printf("Nama Siswa     : ");
+    scanf(" %[^\n]", siswa.nama);
+    printf("NISN           : ");
+    scanf(" %[^\n]", siswa.nisn);
+    printf("Kelas          : ");
+    scanf(" %[^\n]", siswa.kelas);
+    printf("Nama Sekolah   : ");
+    scanf(" %[^\n]", siswa.sekolah);
 }
 
 // Fungsi inti untuk memproses input nilai siswa, melakukan validasi, dan kalkulasi rata-rata
